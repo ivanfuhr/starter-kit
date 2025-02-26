@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', fn() => view('welcome'))->name('home');
+Route::get('/', fn () => view('welcome'))->name('home');
 
 Route::middleware('auth')->group(function (): void {
     Route::get('dashboard', App\Livewire\Dashboard\Page::class)->name('dashboard');

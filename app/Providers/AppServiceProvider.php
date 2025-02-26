@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace App\Providers;
 
@@ -29,7 +29,7 @@ final class AppServiceProvider extends ServiceProvider
     private function configModels(): void
     {
         Model::shouldBeStrict(
-            !app()->isProduction()
+            ! app()->isProduction()
         );
 
         Model::unguard();

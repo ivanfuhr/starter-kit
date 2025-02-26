@@ -11,7 +11,7 @@ use Livewire\Features\SupportRedirects\Redirector;
 
 final class Logout
 {
-    public function __invoke(): RedirectResponse|Redirector
+    public function __invoke(): RedirectResponse | Redirector
     {
         Auth::guard('web')->logout();
 
