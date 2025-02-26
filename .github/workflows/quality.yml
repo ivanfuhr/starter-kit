@@ -1,0 +1,63 @@
+name: Quality
+
+on:
+  push:
+    branches:
+      - develop
+      - main
+  pull_request:
+    branches:
+      - develop
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    environment: Testing
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+
+      - name: Add Flux Credentials Loaded From ENV
+        run: composer config http-basic.composer.fluxui.dev "${{ secrets.FLUX_USERNAME }}" "${{ secrets.FLUX_LICENSE_KEY }}"
+
+      - name: Install Aspell
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y aspell aspell-en
+
+      - name: Install Dependencies
+        run: |
+          composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+          npm install
+
+      - name: Check PHP Syntax
+        run: ./vendor/bin/phpstan analyse
+
+      - name: Check for misspellings
+        run: ./vendor/bin/peck
+
+      - name: Check for Refactorings
+        run: ./vendor/bin/rector
+
+      - name: Fixing Code Style
+        run: ./vendor/bin/pint
+
+      - name: Commit Automatic Changes
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          if [ -n "$(git status --porcelain)" ]; then
+            git add .
+            git commit -m "style: auto format code using Pint and Rector [skip ci]"
+            git push
+          else
+            echo "No changes to commit."
+          fi
