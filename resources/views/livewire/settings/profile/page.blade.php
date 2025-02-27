@@ -1,12 +1,24 @@
 <section class="w-full">
     @include('livewire.settings.partials.settings-heading')
 
-    <x-feature.settings-layout heading="Profile" subheading="Update your name and email address">
+    <x-feature.settings.layout :heading="__('Profile')" :subheading="__('Update your name and email address')">
         <form wire:submit="updateProfileInformation" class="my-6 w-full space-y-6">
-            <flux:input wire:model="name" label="{{ __('Name') }}" type="text" name="name" required autofocus autocomplete="name" />
+            <flux:input wire:model="name"
+                        label="{{ __('Name') }}"
+                        type="text" name="name"
+                        required="required"
+                        autofocus
+                        autocomplete="name"
+            />
 
             <div>
-                <flux:input wire:model="email" label="{{ __('Email') }}" type="email" name="email" required autocomplete="email" />
+                <flux:input wire:model="email"
+                            label="{{ __('Email') }}"
+                            type="email"
+                            name="email"
+                            required="required"
+                            autocomplete="email"
+                />
 
                 @if (auth()->user() instanceof \Illuminate\Contracts\Auth\MustVerifyEmail &&! auth()->user()->hasVerifiedEmail())
                     <div>
@@ -42,5 +54,5 @@
         </form>
 
         <livewire:settings.profile.delete-user-form />
-    </x-feature.settings-layout>
+    </x-feature.settings.layout>
 </section>

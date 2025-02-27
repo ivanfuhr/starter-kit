@@ -1,7 +1,7 @@
 <section class="w-full">
     @include('livewire.settings.partials.settings-heading')
 
-    <x-feature.settings-layout heading="Update password" subheading="Ensure your account is using a long, random password to stay secure">
+    <x-feature.settings.layout :heading="__('Update password')" :subheading="__('Ensure your account is using a long, random password to stay secure')">
         <form wire:submit="updatePassword" class="mt-6 space-y-6">
             <flux:input
                     wire:model="current_password"
@@ -9,7 +9,7 @@
                     label="{{ __('Current password') }}"
                     type="password"
                     name="current_password"
-                    required
+                    required="required"
                     autocomplete="current-password"
             />
 
@@ -19,7 +19,7 @@
                     label="{{ __('New password') }}"
                     type="password"
                     name="password"
-                    required
+                    required="required"
                     autocomplete="new-password"
             />
 
@@ -29,7 +29,7 @@
                     label="{{ __('Confirm Password') }}"
                     type="password"
                     name="password_confirmation"
-                    required
+                    required="required"
                     autocomplete="new-password"
             />
 
@@ -43,5 +43,5 @@
                 </x-ui.action-message>
             </div>
         </form>
-    </x-feature.settings-layout>
+    </x-feature.settings.layout>
 </section>
