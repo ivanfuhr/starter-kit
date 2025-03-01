@@ -61,10 +61,8 @@
             "npx concurrently -c \"#93c5fd,#c4b5fd,#fdba74\" \"php artisan serve\" \"php artisan queue:listen --tries=1\" \"npm run dev\" --names='server,queue,vite'"
         ],
         "quality": [
-            "@rector",
-            "@phpstan",
-            "@pint",
-            "@peck"
+            "Composer\\Config::disableProcessTimeout",
+            "npx concurrently --sequential -c \"#a7f3d0,#93c5fd,#c4b5fd,#fdba74\" \"@rector\" \"@phpstan\" \"@pint\" \"@peck\" --names='rector,phpstan,pint,peck'"
         ],
         "rector": "vendor/bin/rector",
         "phpstan": "vendor/bin/phpstan analyse --memory-limit=2G",

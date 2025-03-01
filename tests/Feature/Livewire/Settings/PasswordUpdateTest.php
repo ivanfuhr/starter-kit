@@ -3,11 +3,8 @@
 declare(strict_types = 1);
 
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Livewire;
-
-uses(RefreshDatabase::class);
 
 test('can update password', function (): void {
     $user = User::factory()->create([

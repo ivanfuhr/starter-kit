@@ -13,5 +13,8 @@ declare(strict_types = 1);
 |
 */
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
+
 pest()->extend(Tests\TestCase::class)
-    ->in('Feature', 'Architecture');
+    ->use(RefreshDatabase::class)
+    ->in('Unit', 'Feature', 'Architecture');

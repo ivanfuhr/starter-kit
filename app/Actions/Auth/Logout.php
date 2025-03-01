@@ -13,6 +13,11 @@ final class Logout
 {
     public function __invoke(): RedirectResponse | Redirector
     {
+        return $this->handle();
+    }
+
+    public function handle(): RedirectResponse | Redirector
+    {
         Auth::guard('web')->logout();
 
         Session::invalidate();

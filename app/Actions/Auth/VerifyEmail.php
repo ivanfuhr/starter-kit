@@ -13,6 +13,11 @@ final class VerifyEmail
 {
     public function __invoke(EmailVerificationRequest $request): RedirectResponse
     {
+        return $this->handle($request);
+    }
+
+    public function handle(EmailVerificationRequest $request): RedirectResponse
+    {
         if ($request->user()->hasVerifiedEmail()) {
             return redirect()->intended(route('dashboard', absolute: false) . '?verified=1');
         }

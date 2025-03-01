@@ -3,10 +3,7 @@
 declare(strict_types = 1);
 
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
-
-uses(RefreshDatabase::class);
 
 test('displays the profile page', function (): void {
     $this->actingAs($user = User::factory()->create());
