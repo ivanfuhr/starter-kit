@@ -2,21 +2,16 @@
 
 declare(strict_types = 1);
 
-namespace App\Actions\Auth;
+namespace App\Http\Controllers\Auth;
 
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Livewire\Features\SupportRedirects\Redirector;
 
-final class Logout
+final class LogoutController
 {
     public function __invoke(): RedirectResponse | Redirector
-    {
-        return $this->handle();
-    }
-
-    public function handle(): RedirectResponse | Redirector
     {
         Auth::guard('web')->logout();
 

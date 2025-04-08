@@ -2,21 +2,16 @@
 
 declare(strict_types = 1);
 
-namespace App\Actions\Auth;
+namespace App\Http\Controllers\Auth;
 
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\RedirectResponse;
 
-final class VerifyEmail
+final class VerifyEmailController
 {
     public function __invoke(EmailVerificationRequest $request): RedirectResponse
-    {
-        return $this->handle($request);
-    }
-
-    public function handle(EmailVerificationRequest $request): RedirectResponse
     {
         if ($request->user()->hasVerifiedEmail()) {
             return redirect()->intended(route('dashboard', absolute: false) . '?verified=1');

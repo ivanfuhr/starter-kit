@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-use App\Actions\Auth\VerifyEmail;
+use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -16,8 +16,7 @@ it('redirects if the user has already verified the email', function (): void {
     $request = mock(EmailVerificationRequest::class);
     $request->shouldReceive('user')->andReturn($user);
 
-    $action   = new VerifyEmail();
-    $response = $action->handle($request);
+    $response = (new VerifyEmailController())($request);
 
     expect($response)->toBeInstanceOf(RedirectResponse::class)
         ->and($response->getTargetUrl())->toContain(route('dashboard') . '?verified=1');
@@ -33,8 +32,7 @@ it('marks email as verified and dispatches event if not verified', function (): 
     $request = mock(EmailVerificationRequest::class);
     $request->shouldReceive('user')->andReturn($user);
 
-    $action   = new VerifyEmail();
-    $response = $action->handle($request);
+    $response = (new VerifyEmailController())($request);
 
     Event::assertDispatched(Verified::class, fn ($event): bool => $event->user === $user);
 

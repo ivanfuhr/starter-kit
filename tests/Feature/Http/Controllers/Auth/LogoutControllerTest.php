@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-use App\Actions\Auth\Logout;
+use App\Http\Controllers\Auth\LogoutController;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
@@ -21,8 +21,7 @@ it('logs out the user, invalidates session, and redirects', function (): void {
 
     Session::spy();
 
-    $action   = new Logout();
-    $response = $action->handle();
+    $response = (new LogoutController())();
 
     Session::shouldHaveReceived('invalidate')->once();
     Session::shouldHaveReceived('regenerateToken')->once();

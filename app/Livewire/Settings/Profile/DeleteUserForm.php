@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace App\Livewire\Settings\Profile;
 
-use App\Actions\Auth\Logout;
+use App\Actions\Settings\DeleteAccount;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use Livewire\Component;
@@ -13,15 +13,15 @@ final class DeleteUserForm extends Component
 {
     public string $password = '';
 
-    public function deleteUser(Logout $logout): void
+    public function deleteUser(DeleteAccount $action): void
     {
         $this->validate([
             'password' => ['required', 'string', 'current_password'],
         ]);
 
-        tap(Auth::user(), $logout(...))->delete();
+        $action->handle(Auth::user());
 
-        $this->redirect('/', navigate: true);
+        $this->redirectRoute('logout', navigate: true);
     }
 
     public function render(): View

@@ -11,8 +11,7 @@ use Livewire\Livewire;
 uses(RefreshDatabase::class);
 
 test('renders the reset password link screen', function (): void {
-    $response = $this->get('/forgot-password');
-    $response->assertOk();
+    $this->get('/forgot-password')->assertOk();
 });
 
 test('can request a reset password link', function (): void {
@@ -36,9 +35,8 @@ test('renders the reset password screen', function (): void {
         ->set('email', $user->email)
         ->call('sendPasswordResetLink');
 
-    Notification::assertSentTo($user, ResetPassword::class, function ($notification): true {
-        $response = $this->get(route('password.reset', $notification->token));
-        $response->assertOk();
+    Notification::assertSentTo($user, ResetPassword::class, function ($notification): bool {
+        $this->get(route('password.reset', $notification->token))->assertOk();
 
         return true;
     });
@@ -53,16 +51,26 @@ test('resets the password with a valid token', function (): void {
         ->set('email', $user->email)
         ->call('sendPasswordResetLink');
 
-    Notification::assertSentTo($user, ResetPassword::class, function ($notification) use ($user): true {
-        $response = Livewire::test('auth.reset-password.page', ['token' => $notification->token])
+    Notification::assertSentTo($user, ResetPassword::class, function ($notification) use ($user): bool {
+        Livewire::test('auth.reset-password.page', ['token' => $notification->token])
             ->set('email', $user->email)
             ->set('password', 'password')
             ->set('password_confirmation', 'password')
-            ->call('resetPassword');
-
-        $response->assertHasNoErrors()
+            ->call('resetPassword')
+            ->assertHasNoErrors()
             ->assertRedirect(route('login', absolute: false));
 
         return true;
     });
+});
+
+test('shows an error with an invalid token', function (): void {
+    $user = User::factory()->create();
+
+    Livewire::test('auth.reset-password.page', ['token' => 'invalid-token'])
+        ->set('email', $user->email)
+        ->set('password', 'password')
+        ->set('password_confirmation', 'password')
+        ->call('resetPassword')
+        ->assertHasErrors(['email']);
 });

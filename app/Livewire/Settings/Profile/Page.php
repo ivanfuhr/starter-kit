@@ -8,6 +8,7 @@ use App\Actions\Settings\ResendEmailVerificationNotification;
 use App\Actions\Settings\UpdateUserProfileInformation;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 use Livewire\Component;
@@ -51,9 +52,11 @@ final class Page extends Component
 
         $sent = $action->handle($user);
 
-        if (! $sent) {
-            $this->redirectIntended(default: route('dashboard', absolute: false));
+        if ($sent) {
+            Session::flash('status', 'verification-link-sent');
         }
+
+        $this->redirectIntended(default: route('dashboard', absolute: false));
     }
 
     public function render(): View

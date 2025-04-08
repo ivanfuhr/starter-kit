@@ -44,10 +44,6 @@ final class AppServiceProvider extends ServiceProvider
 
     private function configUrls(): void
     {
-        if (app()->isLocal()) {
-            return;
-        }
-
         URL::forceHttps();
     }
 

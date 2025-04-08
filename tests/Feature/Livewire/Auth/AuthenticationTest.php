@@ -2,46 +2,67 @@
 
 declare(strict_types = 1);
 
+use App\Livewire\Auth\Login\Page;
 use App\Models\User;
+use Illuminate\Auth\Events\Lockout;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\RateLimiter;
+use Livewire\Livewire;
 
 uses(RefreshDatabase::class);
 
 test('login screen can be rendered', function (): void {
-    $response = $this->get(route('login'));
-    $response->assertOk();
+    $this->get(route('login'))->assertOk();
 });
 
 test('users can authenticate using the login screen', function (): void {
     $user = User::factory()->create();
 
-    $response = Livewire::test('auth.login.page')
+    Livewire::test(Page::class)
         ->set('email', $user->email)
         ->set('password', 'password')
-        ->call('login');
-
-    $response->assertHasNoErrors()
+        ->call('login')
+        ->assertHasNoErrors()
         ->assertRedirect(route('dashboard', absolute: false));
 
-    $this->assertAuthenticated();
+    expect(auth()->check())->toBeTrue();
 });
 
 test('users can not authenticate with invalid password', function (): void {
     $user = User::factory()->create();
 
-    $this->post(route('login'), [
-        'email'    => $user->email,
-        'password' => 'wrong-password',
-    ]);
+    Livewire::test(Page::class)
+        ->set('email', $user->email)
+        ->set('password', 'wrong-password')
+        ->call('login')
+        ->assertHasErrors(['email' => __('auth.failed')]);
 
-    $this->assertGuest();
+    expect(auth()->check())->toBeFalse();
 });
 
-test('users can logout', function (): void {
-    $user = User::factory()->create();
+test('rate limiting locks the user out after too many attempts', function (): void {
+    Event::fake([Lockout::class]);
 
-    $response = $this->actingAs($user)->post(route('logout'));
+    $user        = User::factory()->create();
+    $throttleKey = strtolower((string) $user->email) . '|' . request()->ip();
 
-    $this->assertGuest();
-    $response->assertRedirect('/');
+    RateLimiter::clear($throttleKey);
+
+    foreach (range(1, 5) as $attempt) {
+        Livewire::test(Page::class)
+            ->set('email', $user->email)
+            ->set('password', 'wrong-password')
+            ->call('login')
+            ->assertHasErrors(['email']);
+    }
+
+    Livewire::test(Page::class)
+        ->set('email', $user->email)
+        ->set('password', 'wrong-password')
+        ->call('login')
+        ->assertHasErrors(['email']);
+
+    Event::assertDispatched(Lockout::class);
+    expect(RateLimiter::tooManyAttempts($throttleKey, 5))->toBeTrue();
 });

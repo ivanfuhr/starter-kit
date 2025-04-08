@@ -9,14 +9,14 @@ use App\Models\User;
 final class UpdateUserProfileInformation
 {
     /**
-     * @param array{ name: string, email: string } $attributes
+     * @param  array{ name: string, email: string }  $attributes
      */
     public function handle(User $user, array $attributes): User
     {
         $user->fill($attributes);
 
         if ($user->isDirty('email')) {
-            $user->email_verified_at = null;
+            $user->update(['email_verified_at' => null]);
         }
 
         $user->save();
