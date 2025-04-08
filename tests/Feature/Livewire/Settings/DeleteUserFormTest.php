@@ -14,14 +14,6 @@ test('deletes the user account successfully', function (): void {
 
     $this->actingAs($user);
 
-    app()->bind(DeleteAccount::class, fn (): DeleteAccount => new class () extends DeleteAccount
-    {
-        public function handle(User $user): void
-        {
-            $user->delete();
-        }
-    });
-
     Livewire::test(DeleteUserForm::class)
         ->set('password', 'password')
         ->call('deleteUser')

@@ -46,16 +46,8 @@ test('does not change email verification status if email is unchanged', function
 });
 
 test('resends verification notification successfully', function (): void {
-    $user = User::factory()->create();
+    $user = User::factory()->unverified()->create();
     $this->actingAs($user);
-
-    app()->bind(ResendEmailVerificationNotification::class, fn (): ResendEmailVerificationNotification => new class () extends ResendEmailVerificationNotification
-    {
-        public function handle(User $user): bool
-        {
-            return true;
-        }
-    });
 
     Livewire::test(Page::class)
         ->call('resendVerificationNotification')
@@ -65,14 +57,6 @@ test('resends verification notification successfully', function (): void {
 test('redirects if verification notification is not sent', function (): void {
     $user = User::factory()->create();
     $this->actingAs($user);
-
-    app()->bind(ResendEmailVerificationNotification::class, fn (): ResendEmailVerificationNotification => new class () extends ResendEmailVerificationNotification
-    {
-        public function handle(User $user): bool
-        {
-            return false;
-        }
-    });
 
     Livewire::test(Page::class)
         ->call('resendVerificationNotification')
