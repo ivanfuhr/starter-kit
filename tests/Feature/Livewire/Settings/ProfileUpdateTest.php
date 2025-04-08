@@ -2,7 +2,6 @@
 
 declare(strict_types = 1);
 
-use App\Actions\Settings\ResendEmailVerificationNotification;
 use App\Livewire\Settings\Profile\Page;
 use App\Models\User;
 use Livewire\Livewire;

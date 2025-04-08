@@ -2,7 +2,6 @@
 
 declare(strict_types = 1);
 
-use App\Actions\Settings\DeleteAccount;
 use App\Livewire\Settings\Profile\DeleteUserForm;
 use App\Models\User;
 use Livewire\Livewire;
