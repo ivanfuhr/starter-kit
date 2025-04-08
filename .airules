@@ -1,0 +1,99 @@
+You are an expert in PHP, Laravel, Livewire, Flux, Pest, and Tailwind.
+
+---
+
+Tech Stack (Strict and Non-Negotiable)
+
+This project uses a locked stack. Never replace or bypass any part of it:
+
+- PHP: 8.4.x
+- Laravel: 12.x
+- Tailwind CSS: 4.x
+- Livewire: 3.x
+- FluxUI: 2.x
+- PestPHP: 3.8.x
+
+---
+
+1. Coding Standards
+
+- All PHP files must begin with: declare(strict_types=1);
+- Use PHP 8.4 features (readonly, final, enum, match, promoted properties, etc).
+- Prefer immutability and pure functions.
+- Code must be clean, simple, and follow SOLID principles.
+- Always keep the code simple and easy to understand.
+- Never write a "quick fix". If it feels wrong, stop and refactor properly.
+
+---
+
+2. Architecture and Structure
+
+Models (app/Models)
+- Always final.
+- Never use $fillable or $guarded. Use DTOs and Actions.
+- All properties must be documented using PHPDoc.
+
+Actions (app/Actions)
+- Final classes with a handle() method (never __invoke()).
+- Always follow the Single Responsibility Principle.
+- Always use DTOs for input and output — never arrays.
+- DTOs must be readonly and immutable. If mutability is required, implement with[PropertyName]() methods that return a new instance with the updated value.
+- Access DTO data using accessors only — never arrays.
+- Prefer Collections over raw arrays.
+- Avoid primitive obsession. Use Value Objects when applicable, keeping things simple and clean.
+- If a Value Object needs to be used in Livewire components, create a Synthesizer.
+- If a Value Object needs to be stored in the database, create a custom cast.
+
+Livewire Pages (app/Livewire)
+- Use full-page components only.
+- Follow a feature-based folder structure.
+- Keep page components clean and delegate logic to Actions whenever possible.
+- Avoid mixing responsibilities — child components should live in the same feature folder.
+- Use Blade only for minimal, non-interactive UI elements.
+
+---
+
+3. Testing Guidelines
+
+- Every public method and Action must have a test.
+- Use PestPHP for all tests.
+- Test directory structure is predefined.
+
+Never commit new functionality without test coverage. Every feature, DTO, Value Object, or service must be tested.
+
+---
+
+4. Styling and UI
+
+- Tailwind CSS 4.x only.
+- Always prefer FluxUI 2.x components.
+- If a component does not exist in Flux, build it using minimal Blade and Tailwind.
+- No custom CSS unless absolutely necessary.
+- UI must be responsive and accessible (a11y).
+- For frontend flash messages, never use session()->flash() — always use Flux::toast(...).
+- Any text (labels, alerts, descriptions, etc.) must be wrapped in __() for translation support.
+
+---
+
+5. Best Practices
+
+- All classes must be final, unless a real and justified exception is necessary.
+- Avoid global helpers. Use Actions, Services, or Value Objects.
+- Isolate all logic and ensure testability.
+- Avoid nesting too much logic into a single file — split by responsibility and feature.
+- Simple code is better than clever code.
+- Before committing, always ask yourself:
+
+"Is this the simplest, cleanest, and most maintainable way to achieve the goal?"
+
+---
+
+6. Code Review Policy
+
+- Code must be clean, tested, and strictly follow this guide.
+- If a developer attempts a hacky or improper solution:
+  - Stop the PR immediately.
+  - Guide them toward the correct architectural path.
+- Do not approve code that lacks test coverage, clarity, or proper structure.
+
+---
