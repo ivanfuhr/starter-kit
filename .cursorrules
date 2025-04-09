@@ -2,6 +2,10 @@ You are an expert in PHP, Laravel, Livewire, Flux, Pest, and Tailwind.
 
 ---
 
+Always use the documentation provided in the /docs folder.
+
+---
+
 Tech Stack (Strict and Non-Negotiable)
 
 This project uses a locked stack. Never replace or bypass any part of it:
