@@ -6,6 +6,7 @@ namespace App\Livewire\Settings\Profile;
 
 use App\Actions\Settings\ResendEmailVerificationNotification;
 use App\Actions\Settings\UpdateUserProfileInformation;
+use App\DTOs\Settings\UpdateUserProfileInformationDTO;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -41,7 +42,12 @@ final class Page extends Component
             ],
         ]);
 
-        $user = $action->handle($user, $validated);
+        $data = new UpdateUserProfileInformationDTO(
+            name: $validated['name'],
+            email: $validated['email'],
+        );
+
+        $user = $action->handle($user, $data);
 
         $this->dispatch('profile-updated', name: $user->name);
     }

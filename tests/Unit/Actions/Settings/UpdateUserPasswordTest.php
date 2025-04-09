@@ -3,6 +3,7 @@
 declare(strict_types = 1);
 
 use App\Actions\Settings\UpdateUserPassword;
+use App\DTOs\Settings\UpdateUserPasswordDTO;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
@@ -16,8 +17,10 @@ it('updates the user password and returns the user instance', function (): void 
 
     $newPassword = 'newpassword';
 
-    $action      = new UpdateUserPassword();
-    $updatedUser = $action->handle($user, $newPassword);
+    $action = new UpdateUserPassword();
+    $data   = new UpdateUserPasswordDTO($newPassword);
+
+    $updatedUser = $action->handle($user, $data);
 
     $user->refresh();
 

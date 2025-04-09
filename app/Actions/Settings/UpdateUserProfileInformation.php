@@ -4,16 +4,17 @@ declare(strict_types = 1);
 
 namespace App\Actions\Settings;
 
+use App\DTOs\Settings\UpdateUserProfileInformationDTO;
 use App\Models\User;
 
 final class UpdateUserProfileInformation
 {
-    /**
-     * @param  array{ name: string, email: string }  $attributes
-     */
-    public function handle(User $user, array $attributes): User
+    public function handle(User $user, UpdateUserProfileInformationDTO $data): User
     {
-        $user->fill($attributes);
+        $user->fill([
+            'name'  => $data->name,
+            'email' => $data->email,
+        ]);
 
         if ($user->isDirty('email')) {
             $user->update(['email_verified_at' => null]);

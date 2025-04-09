@@ -6,7 +6,9 @@
             "filesystems",
             "favicon",
             "js",
-            "navlist"
+            "navlist",
+            "dto",
+            "dt"
         ],
         "paths": []
     }

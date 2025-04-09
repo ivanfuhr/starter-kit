@@ -3,6 +3,7 @@
 declare(strict_types = 1);
 
 use App\Actions\Settings\UpdateUserProfileInformation;
+use App\DTOs\Settings\UpdateUserProfileInformationDTO;
 use App\Models\User;
 
 it('updates user profile information without resetting email verification when email remains unchanged', function (): void {
@@ -12,13 +13,13 @@ it('updates user profile information without resetting email verification when e
         'email_verified_at' => now(),
     ]);
 
-    $attributes = [
-        'name'  => 'Updated Name',
-        'email' => 'original@example.com',
-    ];
+    $data = new UpdateUserProfileInformationDTO(
+        name: 'Updated Name',
+        email: 'original@example.com',
+    );
 
     $action      = new UpdateUserProfileInformation();
-    $updatedUser = $action->handle($user, $attributes);
+    $updatedUser = $action->handle($user, $data);
 
     $user->refresh();
 
@@ -35,13 +36,13 @@ it('updates user profile information and resets email verification when email ch
         'email_verified_at' => now(),
     ]);
 
-    $attributes = [
-        'name'  => 'Updated Name',
-        'email' => 'new@example.com',
-    ];
+    $data = new UpdateUserProfileInformationDTO(
+        name: 'Updated Name',
+        email: 'new@example.com',
+    );
 
     $action      = new UpdateUserProfileInformation();
-    $updatedUser = $action->handle($user, $attributes);
+    $updatedUser = $action->handle($user, $data);
 
     $user->refresh();
 

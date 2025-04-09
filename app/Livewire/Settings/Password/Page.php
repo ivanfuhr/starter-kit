@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace App\Livewire\Settings\Password;
 
 use App\Actions\Settings\UpdateUserPassword;
+use App\DTOs\Settings\UpdateUserPasswordDTO;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\ValidationException;
@@ -32,7 +33,11 @@ final class Page extends Component
             throw $e;
         }
 
-        $action->handle(Auth::user(), $validated['password']);
+        $data = new UpdateUserPasswordDTO(
+            newPassword: $validated['password'],
+        );
+
+        $action->handle(Auth::user(), $data);
 
         $this->reset('current_password', 'password', 'password_confirmation');
 

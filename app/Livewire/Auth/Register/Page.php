@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace App\Livewire\Auth\Register;
 
 use App\Actions\Auth\RegisterUser;
+use App\DTOs\Auth\RegisterUserDTO;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rules\Password;
@@ -31,7 +32,13 @@ final class Page extends Component
             'password' => ['required', 'string', 'confirmed', Password::defaults()],
         ]);
 
-        Auth::login($action->handle($validated));
+        $data = new RegisterUserDTO(
+            name: $validated['name'],
+            email: $validated['email'],
+            password: $validated['password'],
+        );
+
+        Auth::login($action->handle($data));
 
         $this->redirect(route('dashboard', absolute: false), navigate: true);
     }

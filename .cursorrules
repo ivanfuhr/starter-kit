@@ -2,7 +2,12 @@ You are an expert in PHP, Laravel, Livewire, Flux, Pest, and Tailwind.
 
 ---
 
-Always use the documentation provided in the /docs folder.
+ALWAYS use the documentation provided in the /docs folder.
+ALWAYS write tests before writing any code. Then write the implementation. ALWAYS run the following commands to make sure everything is correct:
+
+- herd composer test:type-coverage
+- herd composer test:typos
+- herd coverage ./vendor/bin/pest --coverage --exactly=100.0
 
 ---
 
