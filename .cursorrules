@@ -50,7 +50,7 @@ Actions (app/Actions)
 
 Livewire Pages (app/Livewire)
 - Use full-page components only.
-- Follow a feature-based folder structure.
+- Follow a feature-based folder structure (example: app/Livewire/Settings/Page.php)
 - Keep page components clean and delegate logic to Actions whenever possible.
 - Avoid mixing responsibilities — child components should live in the same feature folder.
 - Use Blade only for minimal, non-interactive UI elements.

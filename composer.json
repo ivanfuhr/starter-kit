@@ -27,6 +27,7 @@
         "peckphp/peck": "^0.1.2",
         "pestphp/pest": "^3.7",
         "pestphp/pest-plugin-laravel": "^3.1",
+        "pestphp/pest-plugin-type-coverage": "^3.4.0",
         "rector/rector": "^2.0"
     },
     "autoload": {
