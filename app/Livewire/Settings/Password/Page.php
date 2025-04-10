@@ -6,6 +6,7 @@ namespace App\Livewire\Settings\Password;
 
 use App\Actions\Settings\UpdateUserPassword;
 use App\DTOs\Settings\UpdateUserPasswordDTO;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\ValidationException;
@@ -23,7 +24,7 @@ final class Page extends Component
     public function updatePassword(UpdateUserPassword $action): void
     {
         try {
-            $validated = $this->validate([
+            $this->validate([
                 'current_password' => ['required', 'string', 'current_password'],
                 'password'         => ['required', 'string', Password::defaults(), 'confirmed'],
             ]);
@@ -34,10 +35,13 @@ final class Page extends Component
         }
 
         $data = new UpdateUserPasswordDTO(
-            newPassword: $validated['password'],
+            newPassword: $this->password,
         );
 
-        $action->handle(Auth::user(), $data);
+        /** @var User $user */
+        $user = Auth::user();
+
+        $action->handle($user, $data);
 
         $this->reset('current_password', 'password', 'password_confirmation');
 

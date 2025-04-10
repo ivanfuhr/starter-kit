@@ -26,16 +26,12 @@ final class Page extends Component
 
     public function register(RegisterUser $action): void
     {
-        $validated = $this->validate([
-            'name'     => ['required', 'string', 'max:255'],
-            'email'    => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
-            'password' => ['required', 'string', 'confirmed', Password::defaults()],
-        ]);
+        $this->validate();
 
         $data = new RegisterUserDTO(
-            name: $validated['name'],
-            email: $validated['email'],
-            password: $validated['password'],
+            name: $this->name,
+            email: $this->email,
+            password: $this->password,
         );
 
         Auth::login($action->handle($data));
@@ -46,5 +42,17 @@ final class Page extends Component
     public function render(): View
     {
         return view('livewire.auth.register.page');
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    protected function rules(): array
+    {
+        return [
+            'name'     => ['required', 'string', 'max:255'],
+            'email'    => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
+            'password' => ['required', 'string', 'confirmed', Password::defaults()],
+        ];
     }
 }

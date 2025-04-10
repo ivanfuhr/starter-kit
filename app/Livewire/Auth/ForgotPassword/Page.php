@@ -20,7 +20,7 @@ final class Page extends Component
             'email' => ['required', 'string', 'email'],
         ]);
 
-        Password::sendResetLink($this->only('email'));
+        Password::sendResetLink((array) $this->only('email'));
 
         session()->flash('status', __('A reset link will be sent if the account exists.'));
     }

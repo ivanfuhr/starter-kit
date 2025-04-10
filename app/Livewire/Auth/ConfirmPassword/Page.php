@@ -4,6 +4,8 @@ declare(strict_types = 1);
 
 namespace App\Livewire\Auth\ConfirmPassword;
 
+use App\Models\User;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
@@ -21,8 +23,11 @@ final class Page extends Component
             'password' => ['required', 'string'],
         ]);
 
+        /** @var User $user */
+        $user = auth()->user();
+
         if (! Auth::guard('web')->validate([
-            'email'    => Auth::user()->email,
+            'email'    => $user->email,
             'password' => $this->password,
         ])) {
             throw ValidationException::withMessages([
@@ -30,7 +35,7 @@ final class Page extends Component
             ]);
         }
 
-        session(['auth.password_confirmed_at' => \Carbon\Carbon::now()->timestamp]);
+        session(['auth.password_confirmed_at' => Carbon::now()->timestamp]);
 
         $this->redirectIntended(default: route('dashboard', absolute: false), navigate: true);
     }

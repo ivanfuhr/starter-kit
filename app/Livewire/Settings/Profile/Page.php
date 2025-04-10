@@ -22,29 +22,23 @@ final class Page extends Component
 
     public function mount(): void
     {
-        $this->name  = Auth::user()->name;
-        $this->email = Auth::user()->email;
+        /** @var User $user */
+        $user = Auth::user();
+
+        $this->name  = $user->name;
+        $this->email = $user->email;
     }
 
     public function updateProfileInformation(UpdateUserProfileInformation $action): void
     {
+        $this->validate();
+
+        /** @var User $user */
         $user = Auth::user();
 
-        $validated = $this->validate([
-            'name'  => ['required', 'string', 'max:255'],
-            'email' => [
-                'required',
-                'string',
-                'lowercase',
-                'email',
-                'max:255',
-                Rule::unique(User::class)->ignore($user->id),
-            ],
-        ]);
-
         $data = new UpdateUserProfileInformationDTO(
-            name: $validated['name'],
-            email: $validated['email'],
+            name: $this->name,
+            email: $this->email,
         );
 
         $user = $action->handle($user, $data);
@@ -54,6 +48,7 @@ final class Page extends Component
 
     public function resendVerificationNotification(ResendEmailVerificationNotification $action): void
     {
+        /** @var User $user */
         $user = Auth::user();
 
         $sent = $action->handle($user);
@@ -68,5 +63,26 @@ final class Page extends Component
     public function render(): View
     {
         return view('livewire.settings.profile.page');
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    protected function rules(): array
+    {
+        /** @var User $user */
+        $user = Auth::user();
+
+        return [
+            'name'  => ['required', 'string', 'max:255'],
+            'email' => [
+                'required',
+                'string',
+                'lowercase',
+                'email',
+                'max:255',
+                Rule::unique(User::class)->ignore($user->id),
+            ],
+        ];
     }
 }

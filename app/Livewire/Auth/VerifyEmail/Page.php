@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace App\Livewire\Auth\VerifyEmail;
 
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\View\View;
@@ -13,13 +14,16 @@ final class Page extends Component
 {
     public function sendVerification(): void
     {
-        if (Auth::user()->hasVerifiedEmail()) {
+        /** @var User $user */
+        $user = Auth::user();
+
+        if ($user->hasVerifiedEmail()) {
             $this->redirectIntended(default: route('dashboard', absolute: false), navigate: true);
 
             return;
         }
 
-        Auth::user()->sendEmailVerificationNotification();
+        $user->sendEmailVerificationNotification();
 
         Session::flash('status', 'verification-link-sent');
     }

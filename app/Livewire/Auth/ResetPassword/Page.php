@@ -32,7 +32,7 @@ final class Page extends Component
     {
         $this->token = $token;
 
-        $this->email = (string) request()->string('email');
+        $this->email = (string)request()->string('email');
     }
 
     public function resetPassword(): void
@@ -44,7 +44,7 @@ final class Page extends Component
         ]);
 
         $status = Password::reset(
-            $this->only('email', 'password', 'password_confirmation', 'token'),
+            (array) $this->only('email', 'password', 'password_confirmation', 'token'),
             function (User $user): void {
                 $user->forceFill([
                     'password'       => Hash::make($this->password),
@@ -55,13 +55,15 @@ final class Page extends Component
             }
         );
 
-        if ($status !== Password::PasswordReset) {
+        if ($status !== Password::PasswordReset && is_string($status)) {
             $this->addError('email', __($status));
 
             return;
         }
 
-        Session::flash('status', __($status));
+        if (is_string($status)) {
+            Session::flash('status', __($status));
+        }
 
         $this->redirectRoute('login', navigate: true);
     }
