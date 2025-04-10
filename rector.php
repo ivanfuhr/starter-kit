@@ -16,9 +16,8 @@ return RectorConfig::configure()
         deadCode: true,
         codeQuality: true,
         typeDeclarations: true,
-        privatization: true,
         earlyReturn: true,
         strictBooleans: true,
-        carbon: true,
+        carbon: true
     )
     ->withPhpSets();

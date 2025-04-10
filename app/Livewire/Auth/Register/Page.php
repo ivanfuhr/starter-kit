@@ -47,7 +47,7 @@ final class Page extends Component
     /**
      * @return array<string, mixed>
      */
-    private function rules(): array
+    protected function rules(): array
     {
         return [
             'name'     => ['required', 'string', 'max:255'],
