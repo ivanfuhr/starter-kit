@@ -68,7 +68,7 @@ final class Page extends Component
     /**
      * @return array<string, mixed>
      */
-    protected function rules(): array
+    private function rules(): array
     {
         /** @var User $user */
         $user = Auth::user();
