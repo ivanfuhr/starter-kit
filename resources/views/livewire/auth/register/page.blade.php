@@ -21,7 +21,7 @@
             />
         </div>
 
-        <!-- Email Address -->
+        <!-- Email address -->
         <div class="grid gap-2">
             <flux:input wire:model="email"
                         id="email"
@@ -44,11 +44,11 @@
                     name="password"
                     required="required"
                     autocomplete="new-password"
-                    placeholder="Password"
+                    placeholder="{{ __('Password') }}"
             />
         </div>
 
-        <!-- Confirm Password -->
+        <!-- Confirm password -->
         <div class="grid gap-2">
             <flux:input
                     wire:model="password_confirmation"
@@ -58,7 +58,7 @@
                     name="password_confirmation"
                     required="required"
                     autocomplete="new-password"
-                    placeholder="Confirm password"
+                    placeholder="{{ __('Confirm password') }}"
             />
         </div>
 

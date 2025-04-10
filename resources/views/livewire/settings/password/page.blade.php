@@ -26,7 +26,7 @@
             <flux:input
                     wire:model="password_confirmation"
                     id="update_password_password_confirmation"
-                    label="{{ __('Confirm Password') }}"
+                    label="{{ __('Confirm password') }}"
                     type="password"
                     name="password_confirmation"
                     required="required"

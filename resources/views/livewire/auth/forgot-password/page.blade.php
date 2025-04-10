@@ -7,10 +7,10 @@
     <x-feature.auth.session-status class="text-center" :status="session('status')"/>
 
     <form wire:submit="sendPasswordResetLink" class="flex flex-col gap-6">
-        <!-- Email Address -->
+        <!-- Email address -->
         <div class="grid gap-2">
             <flux:input wire:model="email"
-                        label="{{ __('Email Address') }}"
+                        label="{{ __('Email address') }}"
                         type="email"
                         name="email"
                         required="required"
@@ -24,6 +24,6 @@
 
     <div class="space-x-1 text-center text-sm text-zinc-400">
         {{ __('Or, return to') }}
-        <x-ui.text-link href="{{ route('login') }}">{{ __('log in') }}</x-ui.text-link>
+        <x-ui.text-link href="{{ route('login') }}">{{ __('Log in') }}</x-ui.text-link>
     </div>
 </div>

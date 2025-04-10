@@ -7,7 +7,7 @@
     <x-feature.auth.session-status class="text-center" :status="session('status')" />
 
     <form wire:submit="resetPassword" class="flex flex-col gap-6">
-        <!-- Email Address -->
+        <!-- Email address -->
         <div class="grid gap-2">
             <flux:input wire:model="email"
                         id="email"
@@ -33,7 +33,7 @@
             />
         </div>
 
-        <!-- Confirm Password -->
+        <!-- Confirm password -->
         <div class="grid gap-2">
             <flux:input
                     wire:model="password_confirmation"

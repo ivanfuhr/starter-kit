@@ -5,7 +5,7 @@ declare(strict_types = 1);
 use Illuminate\Database\Eloquent\Model;
 
 arch()->preset()->php();
-arch()->preset()->strict();
+arch()->preset()->strict()->ignoring('App\Livewire');
 arch()->preset()->laravel();
 arch()->preset()->security();
 

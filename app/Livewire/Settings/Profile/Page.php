@@ -54,7 +54,7 @@ final class Page extends Component
         $sent = $action->handle($user);
 
         if ($sent) {
-            Session::flash('status', 'verification-link-sent');
+            Session::flash('status', __('verification-link-sent'));
         }
 
         $this->redirectIntended(default: route('dashboard', absolute: false));
